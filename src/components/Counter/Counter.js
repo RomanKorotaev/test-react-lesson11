@@ -6,13 +6,16 @@ import { connect } from 'react-redux';
 import * as action from '../../redux/actions'
 
 
-function Counter ({value, onIncrement, onDecrement}) {
+function Counter ({value, step, onIncrement, onDecrement}) {
      return (
       <div className="Counter">
         <Value value={value} />
 
         <Controls
-          onIncrement={onIncrement} onDecrement={onDecrement}  />
+          step ={step}
+          onIncrement={ ()=>onIncrement(step)}
+          onDecrement={ ()=>onDecrement(step)}
+        />
 
       </div>
     );
@@ -21,15 +24,16 @@ function Counter ({value, onIncrement, onDecrement}) {
 // сюда приходит весь стейт - state
 const mapStateToProps = state => {
   return {
-    value: state.counterValue,
+    value: state.counter.value,
+    step: state.counter.step
   }
 }
 
 // сюда приходит метод стейта  - dispatch 
 const mapDispatchToProps = dispatch =>{
   return {
-    onIncrement: ()=>dispatch(action.increment(5) ),
-    onDecrement: ()=>dispatch(action.decrement(5) ),
+    onIncrement: value=>dispatch(action.increment(value)),
+    onDecrement: value=>dispatch(action.decrement(value)),
   }
 
 }

@@ -14,17 +14,60 @@ import { createStore } from "redux";
 
 // ========================  Переделываем Counter. start ========================  
 
-const initialState = {counterValue: 0};
+
+//--------------------------- Вариант 1
+
+
+// const initialState = {counterValue: 0,}
+
+// const reducer = (state=initialState, {type, payload} )=>{
+      
+//     switch (type) {
+//         case 'counter/Increment':
+//             return  { counterValue: state.counterValue + payload };
+
+//             case 'counter/Decrement':
+//                 return  { counterValue: state.counterValue - payload };
+
+//             default: 
+//             return  state; 
+//     }
+     
+// };
+
+
+
+ //--------------------------- Вариант 2
+
+
+ const initialState = {
+    counter: {
+        value: 10,
+        step: 25
+    }
+};
 
 
 const reducer = (state=initialState, {type, payload} )=>{
       
     switch (type) {
         case 'counter/Increment':
-            return  { counterValue: state.counterValue + payload };
+            return  {
+                 ...state,
+                counter : {
+                    ...state.counter,
+                    value: state.counter.value + payload,
+                } 
+            };
 
-            case 'counter/Decrement':
-                return  { counterValue: state.counterValue - payload };
+        case 'counter/Decrement':
+            return  { 
+                ...state,
+                counter : {
+                    ...state.counter,
+                    value: state.counter.value - payload,
+                } 
+            };
 
             default: 
             return  state; 
@@ -32,7 +75,7 @@ const reducer = (state=initialState, {type, payload} )=>{
      
 };
 
-// ========================  Базовая Counter. end ======================== 
+// ========================  Переделываем Counter. end ======================== 
 
 const store = createStore (reducer);
 
